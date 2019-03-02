@@ -17,11 +17,14 @@
 <body>
     <div class="header">
         <div class="pill-nav">
+			{%for page in pages%}
+			<!-- <a href="{{ page.output }}">{{ page.title }}</a> -->
             <a href="index.html#follow-me">Contact</a>
             <a href="blog.html">Travel Blog</a>
-            <a href="project.html">My Work</a>
-						<h3 class="name">SYED HUSSAIN</h3>
-
+			<a href="project.html">My Work</a>
+			{%endfor%}
+			<h3 class="name">SYED HUSSAIN</h3>
+			
 						{{content}}
   </body>
 </html>

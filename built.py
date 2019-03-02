@@ -1,49 +1,70 @@
-print('Building a site - Execution begins')
-
-pages = [
-    {
-        "input": "content/index.html",
-        "output": "docs/index.html",
-        "title": "About Me",
-    },
-    {
-        "input": "content/project.html",
-        "output": "docs/project.html",
-        "title": "My Projects",
-    },
-    {
-        "input": "content/blog.html",
-        "output": "docs/blog.html",
-        "title": "Travel Blog",
-    }
+import glob
+import os
+from jinja2 import Template
 
 
-]
 
-def read_files():
-    return open("templates/base.html").read()
+all_html_files = glob.glob("content/*.html")
+pages = []
+base_file = "templates/base.html"
 
-def read_input(page):
-    return open(page["input"]).read()
+# for each_html_file in all_html_files:
 
-def final_merge(page, finished_index_page):
-    return open(page["output"] , "w+").write(finished_index_page)
+#     file_path = each_html_file
+#     file_name = os.path.basename(file_path)
+#     name_only, extension = os.path.splitext(file_name)
+#     return pages.append({
+#     "filename": file_path,
+#     "title": name_only,
+#     "output": "docs/" + file_name,
+#     })
 
-
-def main():
-
-    #Loop around the page list
-    for page in pages:
-        #reading the template
-        template = read_files()
-         #reading the html pages
-        final_content = read_input(page)
-         #combining the base with content
-        finished_index_page = template.replace("{{content}}", final_content)
-        final_merge(page, finished_index_page)
-
-print('Building a site - Execution ends')
+# def read_content_html(pages):
+#     read_file = open(page['filename']).read()
+#     return read_file
 
 
-if __name__ == "__main__":
-    main()
+# def merge_base_template(pages, base_file):
+#     base_html = open(base_file).read()
+#     template = Template(base_html)
+#     final_template = template.render(
+#         title=page['title'],
+#         content= index_html,
+#     )
+#     return final_template
+
+# def write_to_final_html(final_template):
+#     output_pages = open(page["output"] , "w+").write(final_template)
+#     return output_pages
+
+# def main():
+#     read_content_html()
+#     merge_base_template()
+#     write_to_final_html()
+
+
+#loop through each html file 
+for each_html_file in all_html_files:
+
+    file_path = each_html_file
+    file_name = os.path.basename(file_path)
+    name_only, extension = os.path.splitext(file_name)
+    pages.append({
+    "filename": file_path,
+    "title": name_only,
+    "output": "docs/" + file_name,
+    })
+
+
+
+for page in pages:
+    index_html = open(page['filename']).read()
+    template_html = open("templates/base.html").read()
+    template = Template(template_html)
+    final_template = template.render(
+        title=page['title'],
+        content= index_html,
+    )
+    open(page["output"] , "w+").write(final_template)
+    print('Pages are created')
+
